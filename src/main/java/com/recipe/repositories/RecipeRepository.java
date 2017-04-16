@@ -1,6 +1,6 @@
 package com.recipe.repositories;
 
-import com.recipe.domain.Recipe;
+import com.recipe.domains.Recipe;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

@@ -1,7 +1,7 @@
 package com.recipe.services;
 
-import com.recipe.domain.Ingredient;
-import com.recipe.domain.Recipe;
+import com.recipe.domains.Ingredient;
+import com.recipe.domains.Recipe;
 import com.recipe.repositories.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
