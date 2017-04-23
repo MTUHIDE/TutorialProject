@@ -15,6 +15,10 @@ public class Ingredient {
     @Column(name = "id", length = 16)
     private UUID id;
 
+    public Ingredient() {
+
+    }
+
     public Ingredient(Recipe recipe, double quantity, String name, String unit) {
         this.recipe = recipe;
         this.quantity = quantity;

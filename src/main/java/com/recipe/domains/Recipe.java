@@ -33,6 +33,8 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<Ingredient> ingredients;
 
+    public Recipe() {}
+
     public Recipe(Date creationDate, String name, String description, String category) {
         this.creationDate = creationDate;
         this.name = name;
