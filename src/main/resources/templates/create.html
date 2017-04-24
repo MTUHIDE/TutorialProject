@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Create a recipe</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"/>
+</head>
+<body>
+
+
+<div id="" class="container-fluid">
+    <div id="rowTest" class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <!--/*@thymesVar id="recipe" type="com.recipe.domains.Recipe"*/-->
+            <form th:action="@{/create}" th:object="${recipe}" method="post">
+
+                <div class="form-group">
+                    <label for="inputRecipeName">Recipe Name</label>
+                    <input name="recipeName" type="text" class="form-control" id="inputRecipeName"
+                           placeholder="Recipe Name" style="margin-bottom: 1rem;"
+                           th:field="*{name}"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputRecipeDescription">Recipe Description</label>
+                    <textarea name="recipeDescription" class="form-control" id="inputRecipeDescription"
+                              placeholder="Recipe Description"
+                              style="margin-bottom: 1rem;"
+                              th:field="*{description}"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputRecipeCategory">Recipe Category</label>
+                    <input name="recipeCategory" type="text" class="form-control" id="inputRecipeCategory"
+                           placeholder="Recipe Category" style="margin-bottom: 1rem;"
+                           th:field="*{category}"/>
+                </div>
+
+                <p>Ingredients</p>
+                <div id="ingredient-container" class="form-group">
+                    <div th:each="ingredient, ingredientStat : *{getIngredients()}" id="ingredient-template" class="row"
+                         style="margin-bottom: 1rem;">
+                        <div class="col-2">
+                            <input type="number" class="ingredient-quantity form-control" placeholder="Quantity"
+                                   th:field="*{ingredients[__${ingredientStat.index}__].quantity}"/>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="ingredient-unit form-control" placeholder="Unit"
+                                   th:field="*{ingredients[__${ingredientStat.index}__].unit}"/>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="ingredient-name form-control" placeholder="Description"
+                                   th:field="*{ingredients[__${ingredientStat.index}__].name}"/>
+                        </div>
+                        <div class="col-1">
+                            <button id="remove-button" type="submit" name="removeRow" class="btn btn-danger"
+                                    th:value="${ingredientStat.index}">Remove
+                            </button>
+                            <input type="hidden" name="recipe"
+                                   th:field="*{ingredients[__${ingredientStat.index}__].recipe}"/>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="ingredient-button" type="submit" name="addRow" class="btn btn-primary">Add Ingredient
+                </button>
+                <button id="save-button" type="submit" class="btn btn-success">Save</button>
+            </form><!--end of form-->
+
+        </div><!--end of col-->
+    </div><!--end of row-->
+</div><!--end of container fluid hi-->
+
+<script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+
+
+</body>
+</html>
