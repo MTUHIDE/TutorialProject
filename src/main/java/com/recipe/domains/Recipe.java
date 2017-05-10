@@ -14,6 +14,10 @@ import java.util.UUID;
 @Table(name = "recipe")
 public class Recipe {
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User user;
+
+
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
