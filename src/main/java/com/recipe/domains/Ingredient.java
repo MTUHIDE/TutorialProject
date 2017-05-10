@@ -1,8 +1,11 @@
 package com.recipe.domains;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
@@ -29,12 +32,18 @@ public class Ingredient {
     @ManyToOne(cascade = CascadeType.ALL)
     private Recipe recipe;
 
+
+    @NotNull
     @Column(name = "quantity")
     private double quantity;
 
+    @NotEmpty
+    @Length(max = 500)
     @Column(name = "name")
     private String name;
 
+    @NotEmpty
+    @Length(max = 100)
     @Column(name = "unit")
     private String unit;
 

@@ -1,8 +1,11 @@
 package com.recipe.domains;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -17,19 +20,25 @@ public class Recipe {
     @Column(name = "id", length = 16)
     private UUID id;
 
-
     @Column(name = "creation_date")
     private Date creationDate;
 
+    @NotEmpty
+    @Length(max = 500)
     @Column(name = "name")
     private String name;
 
+    @NotEmpty
+    @Length(max = 500)
     @Column(name = "description")
     private String description;
 
+    @NotEmpty
+    @Length(max = 100)
     @Column(name = "category")
     private String category;
 
+    @Valid
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<Ingredient> ingredients;
 

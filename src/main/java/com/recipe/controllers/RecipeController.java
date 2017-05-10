@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -71,7 +72,11 @@ public class RecipeController {
     }
 
     @PostMapping("/create")
-    public String saveRecipe(@ModelAttribute("recipe") Recipe recipe, Model model) {
+    public String saveRecipe(@ModelAttribute("recipe") @Valid Recipe recipe, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "create";
+        }
 
         for (Ingredient ingredient : recipe.getIngredients()) {
             ingredient.setRecipe(recipe);
