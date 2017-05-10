@@ -9,4 +9,7 @@ import java.util.UUID;
  * Created by dough on 5/10/2017.
  */
 public interface UserRepository extends JpaRepository<User, UUID> {
+
+    User findByUsername(String username);
+
 }
