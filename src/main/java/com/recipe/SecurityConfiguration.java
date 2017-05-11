@@ -12,11 +12,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .authorizeRequests().antMatchers("/h2-console/**").permitAll()
+                .and()
                 .authorizeRequests().antMatchers("/create", "/recipe", "/recipes").authenticated()
                 .and()
                 .authorizeRequests().anyRequest().permitAll() //Authorize any users.
-                .and()
-                .authorizeRequests().antMatchers("/h2-console/**").permitAll()
                 .and()
                 .formLogin() //Enable login via form for later implementation.
                 .and()
