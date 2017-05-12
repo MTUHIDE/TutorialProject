@@ -2,7 +2,9 @@ package com.recipe.controllers;
 
 import com.recipe.domains.Ingredient;
 import com.recipe.domains.Recipe;
+import com.recipe.domains.User;
 import com.recipe.repositories.RecipeRepository;
+import com.recipe.services.UserDetailsServiceImpl;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,13 +28,19 @@ public class RecipeController {
     private final RecipeRepository recipeRepository;
 
     @Autowired
-    public RecipeController(RecipeRepository recipeRepository) {
+    private final UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    public RecipeController(RecipeRepository recipeRepository,
+                            UserDetailsServiceImpl userDetailsService) {
         this.recipeRepository = recipeRepository;
+        this.userDetailsService = userDetailsService;
     }
 
     @GetMapping("/recipes")
     public String displayRecipes(Model model) {
-        model.addAttribute("recipes", recipeRepository.findAll());
+        User currentLoggedInUser = userDetailsService.getCurrentLoggedInUser();
+        model.addAttribute("recipes", currentLoggedInUser.getRecipes() != null ? currentLoggedInUser.getRecipes() : new ArrayList<Recipe>());
         return "recipes";
     }
 

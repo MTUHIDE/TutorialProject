@@ -26,7 +26,7 @@ public class User {
 
 
     //A user has a list of recipes, we link them using the user property in the recipe class.
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Recipe> recipes;
 
     public UUID getId() {
