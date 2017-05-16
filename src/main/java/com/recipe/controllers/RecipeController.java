@@ -4,8 +4,8 @@ import com.recipe.domains.Ingredient;
 import com.recipe.domains.Recipe;
 import com.recipe.domains.User;
 import com.recipe.repositories.RecipeRepository;
+import com.recipe.repositories.UserRepository;
 import com.recipe.services.UserDetailsServiceImpl;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -27,14 +28,17 @@ public class RecipeController {
 
     private final RecipeRepository recipeRepository;
 
-    @Autowired
     private final UserDetailsServiceImpl userDetailsService;
+
+    private final UserRepository userRepository;
 
     @Autowired
     public RecipeController(RecipeRepository recipeRepository,
-                            UserDetailsServiceImpl userDetailsService) {
+                            UserDetailsServiceImpl userDetailsService,
+                            UserRepository userRepository) {
         this.recipeRepository = recipeRepository;
         this.userDetailsService = userDetailsService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/recipes")
@@ -86,11 +90,19 @@ public class RecipeController {
             return "create";
         }
 
-        for (Ingredient ingredient : recipe.getIngredients()) {
-            ingredient.setRecipe(recipe);
+
+        if (recipe.getIngredients() != null) {
+            for (Ingredient ingredient : recipe.getIngredients()) {
+                ingredient.setRecipe(recipe);
+            }
         }
 
-        recipeRepository.save(recipe);
+        User currentLoggedInUser = userDetailsService.getCurrentLoggedInUser();
+
+        recipe.setUser(currentLoggedInUser);
+        currentLoggedInUser.getRecipes().add(recipe);
+        userRepository.save(currentLoggedInUser);
+
         return "redirect:/recipes";
     }
 }
